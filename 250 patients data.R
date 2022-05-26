@@ -23,7 +23,8 @@ longegfrnew.dt <-full_join(longegfr1.dt, longegfr2.dt, by=c("id"="id","fu.years"
 ## As we can see there are onlu 3819 rows in the longegfr.dt as a condequence 
 ## we will need to omit the n/a rows after the joining function
 longegfrnew_complete.dt<-na.omit(longegfrnew.dt)
-## As we collect the 
+## As we collect the data of eGFR in the corresponding follow-up time in order to check the average eGFR staus during 
+the 
 length_follow_up.dt<-aggregate(x=longegfrnew.dt $fu.years,by=list(longegfrnew.dt $id),FUN=max)
 length_follow_up.dt<-as.data.table(length_follow_up.dt)
 names(length_follow_up.dt)<-c("id","measurements")
