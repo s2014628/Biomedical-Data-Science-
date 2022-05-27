@@ -28,9 +28,34 @@ longegfrnew_complete.dt<-na.omit(longegfrnew.dt)
 length_follow_up.dt<-aggregate(x=longegfrnew.dt $fu.years,by=list(longegfrnew.dt $id),FUN=max)
 length_follow_up.dt<-as.data.table(length_follow_up.dt)
 names(length_follow_up.dt)<-c("id","measurements")
+##·
+mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
+mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
+names(mean_eGFR.dt)<-c("id","mean_eg")
+eGFR_groupby<-table(cut(mean_eGFR.dt$mean ,breaks=c(0,15,30,60,90,max(longegfrnew.dt$egfr,na.rm = TRUE))))
+eGFR_groupby
+
 ##
 mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
 mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
 names(mean_eGFR.dt)<-c("id","mean_eg")
 eGFR_groupby<-table(cut(mean_eGFR.dt$mean ,breaks=c(0,15,30,60,90,max(longegfrnew.dt$egfr,na.rm = TRUE))))
 eGFR_groupby
+
+
+mean_eGFR.dt$mean %>% 
+  is.na() %>% 
+  table()
+##
+
+mean_eGFR90.dt<-mean_eGFR.dt[which(mean_eGFR.dt$mean_eg>90)]
+
+information_eGFR90.dt<-merge(length_follow_up.dt,mean_eGFR90.dt,by="id")
+
+
+names(information_eGFR90.dt)<-c("id","fu.years","average_eGFR")
+
+freq_measurement.dt<-count(longegfrnew.dt,"id")
+freq_measurement.dt<-as.data.table(freq_measurement.dt)
+names(freq_measurement.dt)[1]="id"
+##
