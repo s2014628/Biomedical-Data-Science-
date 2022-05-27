@@ -24,8 +24,13 @@ longegfrnew.dt <-full_join(longegfr1.dt, longegfr2.dt, by=c("id"="id","fu.years"
 ## we will need to omit the n/a rows after the joining function
 longegfrnew_complete.dt<-na.omit(longegfrnew.dt)
 ## As we collect the data of eGFR in the corresponding follow-up time in order to check the average eGFR status for each partients during 
-## the recording period we will get the 
+## the recording period ie. the max time collected for each person is the total time of the monitoring period
 length_follow_up.dt<-aggregate(x=longegfrnew.dt $fu.years,by=list(longegfrnew.dt $id),FUN=max)
 length_follow_up.dt<-as.data.table(length_follow_up.dt)
 names(length_follow_up.dt)<-c("id","measurements")
-
+##
+mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
+mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
+names(mean_eGFR.dt)<-c("id","mean_eg")
+eGFR_groupby<-table(cut(mean_eGFR.dt$mean ,breaks=c(0,15,30,60,90,max(longegfrnew.dt$egfr,na.rm = TRUE))))
+eGFR_groupby
