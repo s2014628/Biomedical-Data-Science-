@@ -45,24 +45,51 @@ mean_eGFR.dt$mean %>%
   is.na() %>% 
   table()
 ## there are three missing values in our table/
-
+## we have collected the patient data whose eGFR is greater 90 and merge them with the information table.
 mean_eGFR90.dt<-mean_eGFR.dt[which(mean_eGFR.dt$mean_eg>90)]
-
 information_eGFR90.dt<-merge(length_follow_up.dt,mean_eGFR90.dt,by="id")
-
-
 names(information_eGFR90.dt)<-c("id","fu.years","average_eGFR")
-
 freq_measurement.dt<-count(longegfrnew.dt,"id")
 freq_measurement.dt<-as.data.table(freq_measurement.dt)
 names(freq_measurement.dt)[1]="id"
-
-#As the code can be run but if I knit it it always occurs error
 information_eGFR90.dt<-merge(x=information_eGFR90.dt,y=freq_measurement.dt,by="id")
 information_eGFR90.dt<-merge(x=information_eGFR90.dt,y=longegfrnew.dt ,by=c("id","fu.years"))
 names(information_eGFR90.dt)[2]<-"last_measurment_time"
 names(information_eGFR90.dt)[4]<-"measurements"
 information_eGFR90.dt<-information_eGFR90.dt[,-7]
 information_eGFR90.dt<-information_eGFR90.dt[,c(1,5,6,3,2,4)]
-
 ##
+patient3.dt<-longegfrnew.dt[which(longegfrnew.dt$id==3)] 
+patient3.dt<-patient3.dt[,-c(1:3)]
+plot(patient3.dt,xlab="time",ylab="eGFR_measurement",main="patient3")
+patient3_x<-patient3.dt$fu.years
+patient3_y<-patient3.dt$egfr
+regr_patient3 <- lm(patient3_y~patient3_x)
+regr_patient3$coefficients
+abline(regr_patient3 ,col="red")
+confint(regr_patient3)
+patient3_new_x.dt<-patient3.dt[which(patient3.dt$egfr>min(patient3.dt$egfr)&patient3.dt$egfr<max(patient3.dt$egfr))]
+patient3_new_x<-patient3_new_x.dt$fu.years
+patient3_new_y<-patient3_new_x.dt$egfr
+regr_patient3_new<-lm(patient3_new_y~patient3_new_x)
+abline(regr_patient3_new,col="black")
+regr_patient3_new$coefficients
+class
+##
+patient3.dt<-longegfrnew.dt[which(longegfrnew.dt$id==5)] 
+patient3.dt<-patient3.dt[,-c(1:3)]
+plot(patient3.dt,xlab="time",ylab="eGFR_measurement",main="patient3")
+patient3_x<-patient3.dt$fu.years
+patient3_y<-patient3.dt$egfr
+regr_patient3 <- lm(patient3_y~patient3_x)
+regr_patient3$coefficients
+abline(regr_patient3 ,col="red")
+confint(regr_patient3)
+patient3_new_x.dt<-patient3.dt[which(patient3.dt$egfr>min(patient3.dt$egfr)&patient3.dt$egfr<max(patient3.dt$egfr))]
+patient3_new_x<-patient3_new_x.dt$fu.years
+patient3_new_y<-patient3_new_x.dt$egfr
+regr_patient3_new<-lm(patient3_new_y~patient3_new_x)
+abline(regr_patient3_new,col="black")
+regr_patient3_new$coefficients
+class
+
