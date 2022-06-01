@@ -76,7 +76,7 @@ abline(regr_patient3_new,col="black")
 regr_patient3_new$coefficients
 class
 ##
-patient3.dt<-longegfrnew.dt[which(longegfrnew.dt$id==5)] 
+patient3.dt<-longegfrnew.dt[which(longegfrnew.dt$id==37)] 
 patient3.dt<-patient3.dt[,-c(1:3)]
 plot(patient3.dt,xlab="time",ylab="eGFR_measurement",main="patient3")
 patient3_x<-patient3.dt$fu.years
@@ -92,4 +92,38 @@ regr_patient3_new<-lm(patient3_new_y~patient3_new_x)
 abline(regr_patient3_new,col="black")
 regr_patient3_new$coefficients
 class
-
+##
+patient37.dt<-longegfrnew.dt[which(longegfrnew.dt$id==162)]
+patient37.dt<-patient37.dt[,-c(1:3)]
+plot(patient37.dt,xlab="time",ylab="eGFR_measurement",main="patient37")
+patient37_x<-patient37.dt$fu.years
+patient37_y<-patient37.dt$egfr
+regr_patient37 <- lm(patient37_y~patient37_x)
+regr_patient37$coefficients
+abline(regr_patient37 ,col="red")
+confint(regr_patient37)
+patient37_new_x.dt<-patient37.dt[which(patient37.dt$egfr>min(patient37.dt$egfr)&patient37.dt$egfr<max(patient37.dt$egfr))]
+patient37_new_x<-patient37_new_x.dt$fu.years
+patient37_new_y<-patient37_new_x.dt$egfr
+regr_patient37_new<-lm(patient37_new_y~patient37_new_x)
+abline(regr_patient37_new,col="black")
+regr_patient37_new$coefficients
+class(patient37.dt)
+##
+patient223.dt<-longegfrnew.dt[which(longegfrnew.dt$id==223)]
+patient223.dt<-patient223.dt[,-c(1:3)]
+patient223.dt<-na.omit(patient223.dt)
+plot(patient223.dt,xlab="time",ylab="eGFR_measurement",main="patient223")
+patient223_x<-patient223.dt$fu.years
+patient223_y<-patient223.dt$egfr
+regr_patient223 <- lm(patient223_y~patient223_x)
+regr_patient223$coefficients
+abline(regr_patient223 ,col="red")
+confint(regr_patient223)
+patient223_new_x.dt<-patient223.dt[which(patient223.dt$egfr>min(patient223.dt$egfr)&patient223.dt$egfr<max(patient223.dt$egfr))]
+patient223_new_x<-patient223_new_x.dt$fu.years
+patient223_new_y<-patient223_new_x.dt$egfr
+regr_patient223_new<-lm(patient223_new_y~patient223_new_x)
+abline(regr_patient223_new,col="black")
+regr_patient223_new$coefficients
+class(patient223.dt)
