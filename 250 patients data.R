@@ -28,7 +28,8 @@ longegfrnew_complete.dt<-na.omit(longegfrnew.dt)
 length_follow_up.dt<-aggregate(x=longegfrnew.dt $fu.years,by=list(longegfrnew.dt $id),FUN=max)
 length_follow_up.dt<-as.data.table(length_follow_up.dt)
 names(length_follow_up.dt)<-c("id","measurements")
-##·
+## we could calculate the average value of the eGFR and allocated with the correspoding patirnt ID and allocate them in the
+## the serval intervals in 0,15,30,60,90 
 mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
 mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
 names(mean_eGFR.dt)<-c("id","mean_eg")
