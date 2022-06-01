@@ -28,21 +28,18 @@ longegfrnew_complete.dt<-na.omit(longegfrnew.dt)
 length_follow_up.dt<-aggregate(x=longegfrnew.dt $fu.years,by=list(longegfrnew.dt $id),FUN=max)
 length_follow_up.dt<-as.data.table(length_follow_up.dt)
 names(length_follow_up.dt)<-c("id","measurements")
-## we could calculate the average value of the eGFR and allocated with the correspoding patirnt ID and allocate them in the
-## the serval intervals in 0,15,30,60,90 
+## we could calculate the average value of the eGFR and allocated with the corresponding patirnt ID and allocate them in the
+## the several intervals in 0,15,30,60,90 to max
+
+
 mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
 mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
 names(mean_eGFR.dt)<-c("id","mean_eg")
 eGFR_groupby<-table(cut(mean_eGFR.dt$mean ,breaks=c(0,15,30,60,90,max(longegfrnew.dt$egfr,na.rm = TRUE))))
 eGFR_groupby
-
-##
-mean_eGFR.dt<-aggregate(x=longegfrnew.dt$egfr,by=list(longegfrnew.dt$id),FUN=mean,na.rm=TRUE)
-mean_eGFR.dt<-as.data.table(mean_eGFR.dt)
-names(mean_eGFR.dt)<-c("id","mean_eg")
-eGFR_groupby<-table(cut(mean_eGFR.dt$mean ,breaks=c(0,15,30,60,90,max(longegfrnew.dt$egfr,na.rm = TRUE))))
-eGFR_groupby
-
+## when eGFR is greater than 90 indicates that the patients kidney function will be normal and there is 66 patients 
+## being recovered and showed that the eGFR for the majority of the patients are located at the 30-90 which means they are still neeed to be monitored and do the further
+## because when the eGFR is below 60 we need to be cautious it may be caused by kidney disease.
 
 mean_eGFR.dt$mean %>% 
   is.na() %>% 
