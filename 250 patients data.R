@@ -44,7 +44,7 @@ eGFR_groupby
 mean_eGFR.dt$mean %>% 
   is.na() %>% 
   table()
-##
+## there are three missing values in our table/
 
 mean_eGFR90.dt<-mean_eGFR.dt[which(mean_eGFR.dt$mean_eg>90)]
 
@@ -56,4 +56,13 @@ names(information_eGFR90.dt)<-c("id","fu.years","average_eGFR")
 freq_measurement.dt<-count(longegfrnew.dt,"id")
 freq_measurement.dt<-as.data.table(freq_measurement.dt)
 names(freq_measurement.dt)[1]="id"
+
+#As the code can be run but if I knit it it always occurs error
+information_eGFR90.dt<-merge(x=information_eGFR90.dt,y=freq_measurement.dt,by="id")
+information_eGFR90.dt<-merge(x=information_eGFR90.dt,y=longegfrnew.dt ,by=c("id","fu.years"))
+names(information_eGFR90.dt)[2]<-"last_measurment_time"
+names(information_eGFR90.dt)[4]<-"measurements"
+information_eGFR90.dt<-information_eGFR90.dt[,-7]
+information_eGFR90.dt<-information_eGFR90.dt[,c(1,5,6,3,2,4)]
+
 ##
